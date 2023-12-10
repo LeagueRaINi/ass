@@ -20,7 +20,7 @@ try {
 	// todo: fix this
 	const configPath = Path.join(process.cwd(), 'config.json');
 	if (!fs.existsSync(configPath)) throw new Error('Config file not found');
-	var { useSsl, port, domain, isProxied, diskFilePath, s3bucket, s3endpoint, s3usePathStyle }: Config = fs.readJsonSync(configPath);
+	var { useSsl, port, domain, isProxied, diskFilePath, s3bucket, s3endpoint, s3serve, s3isR2, s3usePathStyle }: Config = fs.readJsonSync(configPath);
 } catch (ex) {
 	// @ts-ignore
 	if (ex.code !== 'MODULE_NOT_FOUND' || !ex.toString().includes('Unexpected end')) console.error(ex);
@@ -35,7 +35,11 @@ export function getTrueDomain(d = domain) {
 }
 
 export function getS3url(s3key: string, ext: string) {
-	return `https://${s3usePathStyle ? `${s3endpoint}/${s3bucket}` : `${s3bucket}.${s3endpoint}`}/${s3key}${ext}`;
+	let endpoint = s3isR2
+		? s3serve
+		: s3usePathStyle
+			? `${s3serve}/${s3bucket}` : `${s3bucket}.${s3serve}`;
+	return `https://${endpoint}/${s3key}${ext}`;
 }
 
 export function getDirectUrl(resourceId: string) {

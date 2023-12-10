@@ -31,6 +31,8 @@ const adminWebhookConfig = {
 // Default S3 config
 const s3config = {
 	s3endpoint: 'sfo3.digitaloceanspaces.com',
+	s3serve: 'sfo3.digitaloceanspaces.com',
+	s3isR2: false,
 	s3bucket: 'bucket-name',
 	s3usePathStyle: false,
 	s3accessKey: 'accessKey',
@@ -244,9 +246,21 @@ function doSetup() {
 	const s3schema = {
 		properties: {
 			s3endpoint: {
-				description: 'S3 Endpoint URL to upload objects to',
+				description: 'S3 Endpoint URL for API calls',
 				type: 'string',
 				default: s3config.s3endpoint,
+				required: false
+			},
+			s3serve: {
+				description: 'S3 Endpoint URL to serve objects from',
+				type: 'string',
+				default: s3config.s3serve,
+				required: false
+			},
+			s3isR2: {
+				description: 'Uses the s3 serve endpoint without the bucket name in it (ignores s3usePathStyle)',
+				type: 'boolean',
+				default: s3config.s3isR2,
 				required: false
 			},
 			s3bucket: {

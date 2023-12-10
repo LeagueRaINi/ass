@@ -24,6 +24,8 @@ declare module 'ass-json' {
 		adminWebhookAvatar: string
 		s3enabled: boolean
 		s3endpoint: string
+		s3serve: string
+		s3isR2: string,
 		s3bucket: string
 		s3usePathStyle: boolean
 		s3accessKey: string
